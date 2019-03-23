@@ -91,6 +91,7 @@ public class NewsTypeDaoImpl implements NewsTypeDao {
     @Override
     public int addNewsType(NewsType newsType) {
 
+        System.out.println(newsType.getTypeName());
         String sql="insert into news_type (type_name) values (?)";
         try {
             int i = queryRunner.update(JdbcUtils.getConnection(), sql, newsType.getTypeName());

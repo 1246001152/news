@@ -9,7 +9,7 @@ public class NewsType {
     private int typeId;
     private String typeName;
 
-    public NewsType(String newsType) {
+    public NewsType(String typeName) {
         this.typeName = typeName;
     }
 
@@ -33,7 +33,6 @@ public class NewsType {
         this.typeId = typeId;
         this.typeName = typeName;
     }
-
     public NewsType() {
     }
 

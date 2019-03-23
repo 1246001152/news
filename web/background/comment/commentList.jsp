@@ -29,8 +29,19 @@
         <i class="layui-icon" style="line-height:30px">ဂ</i></a>
 </div>
 <div class="x-body">
-    <table class="layui-hide" id="tab" lay-filter="test"></table>
 
+    <table class="layui-hide" id="tab" lay-filter="test"></table>
+   <%-- <script type="text/html" id="toolbarDemo">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+        </div>
+    </script>
+--%>
+    <script type="text/html" id="toolbarDemo">
+        <div class="layui-btn-container">
+            <button class="layui-btn layui-btn-danger" class="layui-icon" lay-event="deleteAll"><i class="layui-icon"></i>批量删除</button>
+        </div>
+    </script>
     <script type="text/html" id="barDemo">
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
@@ -43,11 +54,12 @@
         var table = layui.table;
         table.render({
             elem: '#tab'
+            ,toolbar: '#toolbarDemo'
             // Servlet 返回一个json字符串
             ,url:'<%=request.getContextPath()%>/CommentServlet?action=query'
             ,title: '新闻评论表'
-            ,cols: [[
-                {field:'cId', title:'ID', width:'5%', fixed: 'left', unresize: true, sort: true}
+            ,cols: [[{type: 'checkbox', fixed: 'left'}
+                ,{field:'cId', title:'ID', width:'5%', fixed: 'left', unresize: true, sort: true}
                 ,{field:'newsId', title:'新闻ID',width:'5%',sort: true}
                 ,{field:'title', title:'新闻标题', width:'20%',sort: true}
                 ,{field:'content', title:'评论内容', width:'20%'}
@@ -56,6 +68,42 @@
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
             ]]
             ,page: true
+        });
+
+        //头工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            if(obj.event=='deleteAll'){
+                var data = checkStatus.data;
+                if(data==""){
+                    layer.msg('请至少选择1条数据');
+                    return;
+                }
+                var ids="";
+                for(var i=0;i<data.length;i++){
+                  alert(data[i].cId)
+                    ids+=data[i].cId
+                    ids+=","
+                }
+                layer.confirm('确认要删除这些信息吗？',function(index) {
+                    $.ajax({
+                        type: "post",
+                        url: "<%=request.getContextPath()%>/CommentServlet",
+                        data: "action=deleteAll&ids=" + ids,
+                        success: function (msg) {
+                            if (msg > 0) {
+                                //捉到所有被选中的，发异步进行删除
+                                layer.msg('成功删除' + msg + '条数据', {icon: 1})
+                            } else {
+                                layer.msg('已删除或不存在!', {icon: 2, time: 1000});
+                            }
+                            location.reload();
+                        }
+                    });
+
+
+                });
+            }
         });
 
         //监听行工具事件
@@ -84,6 +132,7 @@
             }
         });
     });
+
 </script>
 
 </body>

@@ -42,17 +42,16 @@
                         </a>
                     </li>
                     <c:if test="${newsIndex.last}">
-
                                 </ul>
                                 </div>
                             </div>
                         </div>
                     </c:if>
                 </c:forEach>
-
-            <c:if test="${i.index%3==2 || i.last}">
+            <c:if test="${ i.index%3==2 || i.last }">
                 </div>
             </c:if>
+
         </c:forEach>
     <jsp:include page="foreground/commons/link.jsp"></jsp:include>
     <jsp:include page="foreground/commons/footer.jsp"></jsp:include>

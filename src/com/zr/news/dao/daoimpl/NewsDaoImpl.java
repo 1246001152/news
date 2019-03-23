@@ -15,6 +15,24 @@ import java.util.List;
  */
 public class NewsDaoImpl implements NewsDao {
 
+    @Override
+    public int delete(String newsId) {
+        String sql ="delete from news where  news_id = ?";
+        PreparedStatement ps=null;
+        ResultSet rs = null;
+        try {
+            Connection connection = JdbcUtils.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setString(1,newsId);
+            int i = ps.executeUpdate();
+            return  i;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            JdbcUtils.close();
+        }
+        return  0;
+    }
 
     public void addClick(int newsId){
 
@@ -31,6 +49,105 @@ public class NewsDaoImpl implements NewsDao {
         }finally {
             JdbcUtils.close();
         }
+    }
+    @Override
+    public int addNews(News news) {
+        String sql ="INSERT INTO newsdb.news (title, context, author, type_id, publish_date, is_image, image_url, click, is_hot) " +
+                "VALUES (?,?,?,?,?,?,?,?,?)";
+        PreparedStatement ps=null;
+        ResultSet rs = null;
+        try {
+            Connection connection = JdbcUtils.getConnection();
+            ps = connection.prepareStatement(sql);
+
+            Object[] obj = {news.getTitle(),news.getContext(),news.getAuthor(),
+                    news.getTypeId(),news.getPublishDate(),news.getIsImage(),
+                    news.getImageUrl(),news.getClick(),news.getIsHot()};
+            setParten(ps,obj);
+            int i = ps.executeUpdate();
+            return  i;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            JdbcUtils.close();
+        }
+        return 0;
+    }
+
+    @Override
+    public int updateNews(News news) {
+        String sql ="update news set title=?,context=? ,author=?, type_id=?," +
+                " publish_date=?, is_image=? ,image_url=?, is_hot=? where news_id=?";
+        PreparedStatement ps=null;
+        ResultSet rs = null;
+        try {
+            Connection connection = JdbcUtils.getConnection();
+            ps = connection.prepareStatement(sql);
+
+            Object[] obj = {news.getTitle(),news.getContext(),news.getAuthor(),
+                    news.getTypeId(),news.getPublishDate(),news.getIsImage(),
+                    news.getImageUrl(),news.getIsHot(),news.getNewsId()};
+            setParten(ps,obj);
+            int i = ps.executeUpdate();
+            return  i;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            JdbcUtils.close();
+        }
+        return 0;
+    }
+
+    @Override
+    public List<News> queryPage(PageBean pageBean) {
+        String sql="select * from news n , news_type t where n.type_id =t.type_id order by publish_date desc limit ?,?";
+        List<News> list =  new ArrayList<>();
+        PreparedStatement ps=null;
+        ResultSet rs = null;
+        try {
+            Connection connection = JdbcUtils.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1,pageBean.getIndex());
+            ps.setInt(2,pageBean.getPageCount());
+            rs = ps.executeQuery();
+            while (rs.next()){
+                News news =  new News();
+                news.setNewsId(rs.getInt("news_id"));
+                news.setTitle(rs.getString("title"));
+                news.setContext(rs.getString("context"));
+                news.setAuthor(rs.getString("author"));
+                news.setTypeId(rs.getInt("type_id"));
+                news.setPublishDate(rs.getDate("publish_date"));
+                news.setIsImage(rs.getInt("is_image"));
+                news.setImageUrl(rs.getString("image_url"));
+                news.setClick(rs.getInt("click"));
+                news.setIsHot(rs.getInt("is_hot"));
+                news.setTypeName(rs.getString("type_name"));
+                list.add(news);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(rs!=null)
+                    rs.close();
+                if(ps!=null)
+                    ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            JdbcUtils.close();
+        }
+        return list;
+    }
+
+
+
+    public void setParten(PreparedStatement ps,Object... obj) throws SQLException {
+        for (int i = 0; i < obj.length ; i++) {
+            ps.setObject(1+i,obj[i]);
+        }
+
     }
 
     public News findDownNewsById(int id){

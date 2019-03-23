@@ -22,4 +22,5 @@ public interface NewsTypeDao {
     public int updateNewsType(NewsType newsType);
 
     public List<NewsType> queryByPage(PageBean pageBean);
+
 }

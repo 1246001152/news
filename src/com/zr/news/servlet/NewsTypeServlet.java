@@ -10,6 +10,7 @@ import com.zr.news.entity.PageBean;
 import com.zr.news.entity.ResultCode;
 import com.zr.news.service.NewsTypeService;
 import com.zr.news.util.JsonUtil;
+import com.zr.news.util.StringUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -70,15 +71,18 @@ public class NewsTypeServlet extends HttpServlet {
     }
 
     protected void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String newsType = request.getParameter("newsType");
+        String typeName = request.getParameter("typeName");
         NewsTypeDao dao = new NewsTypeDaoImpl();
-        int i = dao.addNewsType(new NewsType(newsType));
+        int i = dao.addNewsType(new NewsType(typeName));
         response.getWriter().print(i);
     }
 
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-
+        String typeId = request.getParameter("typeId");
+        String typeName = request.getParameter("typeName");
+        NewsTypeDao dao = new NewsTypeDaoImpl();
+        int i = dao.updateNewsType(new NewsType(Integer.parseInt(typeId),typeName));
+        response.getWriter().print(i);
     }
 
     protected void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -108,9 +112,29 @@ public class NewsTypeServlet extends HttpServlet {
     }
 
     protected void deleteAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        NewsTypeDao dao = new NewsTypeDaoImpl();
+        String ids = request.getParameter("ids");
+        System.out.println(ids);
+        String[] id = ids.split(",");
+        int sum=0;
+        for (String typeId:id) {
+            int  i = dao.deleteNewsType(Integer.parseInt(typeId));
+            sum+=i;
+        }
+        response.getWriter().print(""+sum);
     }
 
     protected void queryOne(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        NewsTypeDao dao = new NewsTypeDaoImpl();
+        String id = request.getParameter("id");
+        int typeId=-1;
+        if(!StringUtil.isEmpty(id)){
+            typeId=Integer.parseInt(id);
+        }
+        NewsType type = dao.findTypeById(typeId);
+
+        request.setAttribute("type",type);
+        request.getRequestDispatcher("/background/newsType/addType.jsp").forward(request,response);
+
     }
 }

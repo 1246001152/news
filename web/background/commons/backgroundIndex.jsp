@@ -76,13 +76,13 @@
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="order-list.html">
+                        <a _href="<%=request.getContextPath()%>/background/news/newsList.jsp">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>新闻信息维护</cite>
                         </a>
                     </li >
                     <li>
-                        <a _href="<%=request.getContextPath()%>/background/news/newsAdd.jsp">
+                        <a _href="<%=request.getContextPath()%>/NewsServlet?action=toadd">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>新闻信息添加</cite>
                         </a>
@@ -100,12 +100,6 @@
                         <a _href="<%=request.getContextPath()%>/background/newsType/typeList.jsp">
                             <i class="iconfont">&#xe6a7;</i>
                             <cite>新闻分类维护</cite>
-                        </a>
-                    </li >
-                    <li>
-                        <a _href="cate.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>新闻分类添加</cite>
                         </a>
                     </li >
                 </ul>
@@ -141,19 +135,10 @@
                 </ul>
             </li>
             <li>
-                <a href="javascript:;">
+                <a href="<%=request.getContextPath()%>/InitServlet">
                     <i class="iconfont">&#xe6ce;</i>
-                    <cite>系统设置</cite>
-                    <i class="iconfont nav_right">&#xe697;</i>
+                    <cite>系统缓冲刷新</cite>
                 </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a _href="echarts1.html">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>系统缓冲刷新</cite>
-                        </a>
-                    </li >
-                </ul>
             </li>
         </ul>
     </div>

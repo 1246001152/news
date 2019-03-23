@@ -14,3 +14,4 @@
 <script src="<%=request.getContextPath()%>/static/layui/layui.js" charset="utf-8"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/static/js/xadmin.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/static/js/dateFormat.js"></script>
+

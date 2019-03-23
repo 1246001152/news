@@ -17,15 +17,21 @@
     <div class="layui-container" style="padding: 20px">
         <form class="layui-form" action="">
             <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-block">
+                    <input type="hidden" name="newsId" value="${news.newsId}" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
                 <label class="layui-form-label">新闻标题：</label>
                 <div class="layui-input-block">
-                    <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                    <input type="text" name="title" required value="${news.title}"  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">作者：</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="author" required lay-verify="required" placeholder="请输入作者" autocomplete="off" class="layui-input">
+                    <input type="text" name="author" required lay-verify="required" value="${news.author}"  placeholder="请输入作者" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -34,7 +40,12 @@
                     <select name="typeId" lay-verify="required">
                         <option value=""></option>
                         <c:forEach items="${typeList}" var="type">
-                            <option value="${type.typeId}">${type.typeName}</option>
+                            <c:if test="${type.typeId == news.typeId}">
+                                <option selected value="${type.typeId}">${type.typeName}</option>
+                            </c:if>
+                            <c:if test="${type.typeId != news.typeId}">
+                                <option value="${type.typeId}">${type.typeName}</option>
+                            </c:if>
                         </c:forEach>
                     </select>
                 </div>
@@ -42,20 +53,32 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">新闻标签：</label>
                 <div class="layui-input-block">
-                    <input type="checkbox" name="isHot" title="热点">
-                    <input type="checkbox" name="isImage" title="图片" >
+                    <c:if test="${news.isHot==1}">
+                        <input type="checkbox" name="isHot" title="热点" checked>
+                    </c:if>
+                    <c:if test="${news.isHot!=1}">
+                        <input type="checkbox" name="isHot" title="热点" >
+                    </c:if>
+
+                    <c:if test="${news.isImage==1}">
+                        <input type="checkbox" name="isImage" title="图片" checked >
+                    </c:if>
+                    <c:if test="${news.isImage!=1}">
+                        <input type="checkbox" name="isImage" title="图片" >
+                    </c:if>
+
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">发布日期：</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="publishDate" lay-verify="required" class="layui-input" id="test1">
+                    <input type="text" name="publishDate" value="${news.publishDate}"  lay-verify="required" class="layui-input" id="test1">
                 </div>
             </div>
             <div class="layui-form-item layui-form-text">
                 <label class="layui-form-label">新闻内容：</label>
                 <div class="layui-input-block">
-                    <textarea id="content"  name="content"  cols="20" rows="2" class="ckeditor"></textarea>
+                    <textarea id="content"  name="content"  cols="20" rows="2" class="ckeditor">${news.context}</textarea>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -73,8 +96,9 @@
             var laydate = layui.laydate;
             //监听提交
             form.on('submit(submitSave)', function(data){
-                //layer.msg(JSON.stringify(data.field)+"==="+CKEDITOR.instances.content.getData());
+                layer.msg(JSON.stringify(data.field)+"==="+CKEDITOR.instances.content.getData());
 
+                var newsId = data.field.newsId;
                 var title = data.field.title;
                 var author = data.field.author;
                 var typeId = data.field.typeId;
@@ -82,12 +106,12 @@
                 var isImage = data.field.isImage;
                 var publishDate = data.field.publishDate;
                 var content =  CKEDITOR.instances.content.getData();
-
                 $.ajax({
                     type:"post",
                     url:"NewsServlet",
                     data:{
-                       "action":"add",
+                       "action":"update",
+                       "newsId":newsId,
                        "title":title,
                        "author":author,
                        "typeId":typeId,
@@ -97,9 +121,12 @@
                        "content":content
                     },
                     success:function(msgData){
-                        layer.msg("添加成功",{icon:1,time:2000});
-                        setTimeout("location.reload()",3000)
-
+                        layer.msg("修改成功",{icon:1,time:2000});
+                        // 获得frame索引
+                        var index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                        window.parent.location.reload();
                     }
                 })
                 return false;

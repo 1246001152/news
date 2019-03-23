@@ -78,4 +78,16 @@ public class CommentDaoImpl implements CommentDao {
         }
         return 0;
     }
+
+    @Override
+    public int deleteComentByNews(int newId) {
+
+        String sql="delete from comment where news_id=? ";
+        try {
+            return  qr.update(JdbcUtils.getConnection(),sql,newId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

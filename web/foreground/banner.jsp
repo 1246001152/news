@@ -26,17 +26,19 @@
                         <c:if test="${index.first}">
                             <div class="item active">
                                 <a href="NewsServlet?action=queryOne&newsId=${imageNews.newsId}">
-                                    <img src="<%=request.getContextPath()%>/newsImg/${imageNews.imageUrl}"
+                                    <img src="/${imageNews.imageUrl}"
                                                             alt="${imageNews.title}"
-                                                            title="11${imageNews.title}"></a>
+                                                            title="${imageNews.title}"></a>
                             </div>
                         </c:if>
+                        <c:if test="${!index.first}">
                             <div class="item ">
                                 <a href="NewsServlet?action=queryOne&newsId=${imageNews.newsId}">
-                                    <img src="<%=request.getContextPath()%>/newsImg/${imageNews.imageUrl}"
+                                    <img src="/${imageNews.imageUrl}"
                                          alt="${imageNews.title}"
-                                         title="22${imageNews.title}"></a>
+                                         title="${imageNews.title}"></a>
                             </div>
+                        </c:if>
                     </c:forEach>
             </div>
             <!-- 轮播（Carousel）导航 -->

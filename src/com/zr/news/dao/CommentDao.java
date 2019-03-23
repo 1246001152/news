@@ -20,4 +20,6 @@ public interface CommentDao {
     public List<Comment> queryByPage(PageBean pageBean);
 
     public int deleteComent(int id);
+
+    public int deleteComentByNews(int newId);
 }

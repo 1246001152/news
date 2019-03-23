@@ -37,4 +37,12 @@ public interface NewsDao {
 
     public void addClick(int newsId);
 
+    int addNews(News news);
+
+
+    List<News> queryPage(PageBean pageBean);
+
+    int delete(String newsId);
+
+    int updateNews(News news);
 }

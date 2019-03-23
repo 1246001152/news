@@ -34,13 +34,27 @@ public class CommentServlet extends HttpServlet {
             add(request, response);
         }else if("query".equals(action)){
             query(request, response);
-        }else{
+        }else if("delete".equals(action)){
             delete(request, response);
+        }else if("deleteAll".equals(action)){
+            deleteAll(request, response);
         }
-
-
     }
-
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request,response);
+    }
+    protected void deleteAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String ids = request.getParameter("ids");
+        CommentDao dao = new CommentDaoImpl();
+        System.out.println("-----------------"+ids);
+        String[] id = ids.split(",");
+        int sum=0;
+        for (String commentId:id) {
+            int  i = dao.deleteComent(Integer.parseInt(commentId));
+            sum+=i;
+        }
+        response.getWriter().print(""+sum);
+    }
     private void add(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String newsId = request.getParameter("newsId");
         String content = request.getParameter("content");
@@ -71,9 +85,6 @@ public class CommentServlet extends HttpServlet {
         JSONObject array = JsonUtil.getJsonObject(commentList,pageBean);
         response.getWriter().print(array);
 
-    }
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request,response);
     }
     protected void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");

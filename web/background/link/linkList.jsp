@@ -148,8 +148,7 @@
                     }
                     $(".layui-form-checked").not('.header').parents('tr').remove();
                 }
-            })
-            ;
+            });
 
         });
     }

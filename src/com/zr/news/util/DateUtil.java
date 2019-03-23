@@ -1,5 +1,6 @@
 package com.zr.news.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -18,12 +19,17 @@ public class DateUtil {
     }
 
 
-    public static Date formatString(String str,String format) throws Exception{
+    public static Date formatString(String str,String format) {
         if(StringUtil.isEmpty(str)){
             return null;
         }
         SimpleDateFormat sdf=new SimpleDateFormat(format);
-        return sdf.parse(str);
+        try {
+            return sdf.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return new Date();
     }
 
     public static String getCurrentDateStr()throws Exception{

@@ -57,7 +57,9 @@ public class NewsService {
         List<NewsType> typeList = service.findAll();
         for (NewsType newsType:typeList) {
             List<News> newsList = dao.findNewsByType(newsType.getTypeId());
-            listsnewsLists.add(newsList);
+            if(newsList!=null && !newsList.isEmpty()) {
+                listsnewsLists.add(newsList);
+            }
         }
         return  listsnewsLists;
     }
@@ -82,5 +84,26 @@ public class NewsService {
         newsUpAndDownList.add(upNews);
         newsUpAndDownList.add(downNews);
         return newsUpAndDownList;
+    }
+
+    public int addNews(News news) {
+       return dao.addNews(news);
+    }
+
+
+    public List<News> queryPage(PageBean pageBean) {
+        return dao.queryPage(pageBean);
+    }
+
+    public List<News> findAll(){
+        return dao.findAll();
+    }
+
+    public int delete(String newsId) {
+        return dao.delete(newsId);
+    }
+
+    public int updateNews(News news) {
+        return dao.updateNews(news);
     }
 }
