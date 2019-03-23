@@ -20,7 +20,7 @@
 <body>
 <div class="x-body layui-anim layui-anim-up">
     <blockquote class="layui-elem-quote">欢迎管理员：
-        <span class="x-red">${username}</span>！当前时间:${currentDate}</blockquote>
+        <span class="x-red">${username}</span>！登录时间:${currentDate}</blockquote>
     <fieldset class="layui-elem-field">
         <legend>数据统计</legend>
         <div class="layui-field-box">

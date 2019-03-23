@@ -44,6 +44,7 @@ public class UserLoginServlet extends HttpServlet {
             if(user.getPassword().equals(password)){
                 //密码正确
                 rc = new ResultCode("1001","登录成功");
+                request.getSession().setAttribute("currentDate", DateUtil.formatDate(new Date(),"yyyy-MM-dd HH:mm:ss"));
                loginInfo(request,response);
             }else{
                 //密码不正确
@@ -87,7 +88,6 @@ public class UserLoginServlet extends HttpServlet {
         session.setAttribute("linkListCount",linkList.size());
         session.setAttribute("clickSum",clickSum);
         session.setAttribute("ipCount",set.size());
-        session.setAttribute("currentDate", DateUtil.formatDate(new Date(),"yyyy-MM-dd HH:mm:ss"));
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
