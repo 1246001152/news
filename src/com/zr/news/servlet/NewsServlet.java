@@ -36,7 +36,6 @@ public class NewsServlet extends HttpServlet {
         response.setContentType("text/html;charset=utf-8");
 
         String action = request.getParameter("action");
-        System.out.println("NewsServlet........."+action);
         if("query".equals(action)){
             query(request, response);
         }else if("queryOne".equals(action)){

@@ -87,12 +87,12 @@
                 <tbody>
                 <tr>
                     <td >
-                        <a class="x-a" href="/" target="_blank">新版天天新闻V1.0上线了</a>
+                        <a class="x-a"  target="_blank">新版天天新闻 V1.0上线了</a>
                     </td>
                 </tr>
                 <tr>
                     <td >
-                        <a class="x-a" href="/" target="_blank">联系方式:(1246001152)</a>
+                        <a class="x-a"  target="_blank">联系方式:(1246001152)</a>
                     </td>
                 </tr>
                 </tbody>
@@ -106,7 +106,7 @@
                 <tbody>
                 <tr>
                 <th>天天新闻版本</th>
-                <td>1.0.1000</td>
+                <td>V1.0.1000</td>
                 <td width="500px" rowspan="10">
                     <iframe height="500px" width="500px" src='../html/ball.html' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
                 </td>

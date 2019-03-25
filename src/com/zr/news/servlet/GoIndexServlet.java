@@ -23,8 +23,6 @@ import java.util.List;
 public class GoIndexServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        System.out.println("GoIndexServlet.doPost....");
-
         NewsService newsService = new NewsService();
         NewsTypeService typeService = new NewsTypeService();
 

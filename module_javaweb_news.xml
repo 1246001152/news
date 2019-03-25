@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_javaweb_news" default="compile.module.javaweb_news">
+  <dirname property="module.javaweb_news.basedir" file="${ant.file.module_javaweb_news}"/>
+  
+  <property name="module.jdk.home.javaweb_news" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.javaweb_news" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.javaweb_news" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.javaweb_news" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="javaweb_news.output.dir" value="${module.javaweb_news.basedir}/out/production/javaweb_news"/>
+  <property name="javaweb_news.testoutput.dir" value="${module.javaweb_news.basedir}/out/test/javaweb_news"/>
+  
+  <path id="javaweb_news.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="javaweb_news.module.production.classpath">
+    <path refid="${module.jdk.classpath.javaweb_news}"/>
+    <path refid="library.tomcat_9.0.11.classpath"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  <path id="javaweb_news.runtime.production.module.classpath">
+    <pathelement location="${javaweb_news.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  <path id="javaweb_news.module.classpath">
+    <path refid="${module.jdk.classpath.javaweb_news}"/>
+    <pathelement location="${javaweb_news.output.dir}"/>
+    <path refid="library.tomcat_9.0.11.classpath"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  <path id="javaweb_news.runtime.module.classpath">
+    <pathelement location="${javaweb_news.testoutput.dir}"/>
+    <pathelement location="${javaweb_news.output.dir}"/>
+    <path refid="library.tomcat_9.0.11.classpath"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.javaweb_news">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.javaweb_news">
+    <patternset refid="excluded.from.module.javaweb_news"/>
+  </patternset>
+  
+  <path id="javaweb_news.module.sourcepath">
+    <dirset dir="${module.javaweb_news.basedir}">
+      <include name="src"/>
+      <include name="config"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.javaweb_news" depends="compile.module.javaweb_news.production,compile.module.javaweb_news.tests" description="Compile module javaweb_news"/>
+  
+  <target name="compile.module.javaweb_news.production" depends="register.custom.compilers" description="Compile module javaweb_news; production classes">
+    <mkdir dir="${javaweb_news.output.dir}"/>
+    <javac2 destdir="${javaweb_news.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.javaweb_news}/javac">
+      <compilerarg line="${compiler.args.javaweb_news}"/>
+      <bootclasspath refid="javaweb_news.module.bootclasspath"/>
+      <classpath refid="javaweb_news.module.production.classpath"/>
+      <src refid="javaweb_news.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.javaweb_news"/>
+    </javac2>
+    
+    <copy todir="${javaweb_news.output.dir}">
+      <fileset dir="${module.javaweb_news.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.javaweb_news.basedir}/config">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.javaweb_news.tests" depends="register.custom.compilers,compile.module.javaweb_news.production" description="compile module javaweb_news; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.javaweb_news" description="cleanup module">
+    <delete dir="${javaweb_news.output.dir}"/>
+    <delete dir="${javaweb_news.testoutput.dir}"/>
+  </target>
+</project>

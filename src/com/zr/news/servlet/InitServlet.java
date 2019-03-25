@@ -14,7 +14,6 @@ import com.zr.news.entity.News;
 import com.zr.news.entity.NewsType;
 import com.zr.news.service.NewsService;
 import com.zr.news.service.NewsTypeService;
-import com.zr.news.util.DateUtil;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -25,7 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -84,7 +82,7 @@ public class InitServlet extends HttpServlet {
     private void loginInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // 创建一次会话， 如果有会话就直接使用
         HttpSession session = request.getSession();
-        String username = request.getParameter("username");
+        String username = (String)session.getAttribute("username");
 
         NewsDao newsDao=new NewsDaoImpl();
         NewsTypeDao newsTypeDao=new NewsTypeDaoImpl();
@@ -112,6 +110,5 @@ public class InitServlet extends HttpServlet {
         session.setAttribute("linkListCount",linkList.size());
         session.setAttribute("clickSum",clickSum);
         session.setAttribute("ipCount",set.size());
-        session.setAttribute("currentDate", DateUtil.formatDate(new Date(),"yyyy-MM-dd HH:mm:ss"));
     }
 }

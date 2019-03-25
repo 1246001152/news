@@ -46,7 +46,6 @@ public class CommentServlet extends HttpServlet {
     protected void deleteAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ids = request.getParameter("ids");
         CommentDao dao = new CommentDaoImpl();
-        System.out.println("-----------------"+ids);
         String[] id = ids.split(",");
         int sum=0;
         for (String commentId:id) {
@@ -65,7 +64,6 @@ public class CommentServlet extends HttpServlet {
         if(i>0){
             // 将对象转为json字符串
             String strjson = JSONObject.toJSONString(comment);
-//          System.out.println(strjson);
             response.getWriter().print(strjson);
         }
     }

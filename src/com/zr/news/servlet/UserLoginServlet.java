@@ -31,10 +31,8 @@ public class UserLoginServlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
 
-        System.out.println("UserLoginServlet.post.....");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        System.out.println("UserLoginServlet.post....."+username+"======="+password);
         UserDaoImpl dao =  new UserDaoImpl();
         User user = dao.queryOne(username);
         ResultCode rc = null;

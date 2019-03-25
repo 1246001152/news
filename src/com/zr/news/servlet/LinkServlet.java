@@ -71,7 +71,6 @@ public class LinkServlet extends HttpServlet {
 
     protected void deleteAll(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ids = request.getParameter("ids");
-        System.out.println(ids);
         String[] id = ids.split(",");
         int sum=0;
         for (String linkId:id) {

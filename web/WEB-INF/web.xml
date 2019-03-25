@@ -14,4 +14,13 @@
         <error-code>500</error-code>
         <location>/comm/500.jsp</location>
     </error-page>-->
+
+    <filter>
+        <filter-name>role</filter-name>
+        <filter-class>com.zr.news.filter.RoleFileter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>role</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>

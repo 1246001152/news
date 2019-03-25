@@ -49,10 +49,9 @@ public class UploadServlet extends HttpServlet {
         JSONObject json = new JSONObject();
         json.put("uploaded",1);
         json.put("fileName",fileName);
-        json.put("url",fileName);
+        json.put("url","http://localhost/"+fileName);
 
         request.getSession().setAttribute("image",fileName);
-        System.out.println(json);
         out.print(json);
         out.flush();
         out.close();
